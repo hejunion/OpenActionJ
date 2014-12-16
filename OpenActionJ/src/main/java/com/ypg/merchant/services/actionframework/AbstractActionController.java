@@ -149,14 +149,15 @@ public abstract class AbstractActionController implements ActionController {
 				return  (ActionResult)method.invoke(actionMethodInvoker.getHostObj(),action);
 			//actionMethodInvoker.invoke(action);
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
+			throw new InvalidActionMethodException("Error",e);
 		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			throw new InvalidActionMethodException("Error",e);
 		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			throw new InvalidActionMethodException("Error",e);
 		}
 		return null;
 

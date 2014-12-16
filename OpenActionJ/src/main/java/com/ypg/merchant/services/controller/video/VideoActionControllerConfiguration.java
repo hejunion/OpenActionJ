@@ -31,6 +31,7 @@ public class VideoActionControllerConfiguration {
     	return new ProfilePostExecutionAdvisor();
     }
     
+    
 	@Bean  
 	@DependsOn("defaultAdvisorAutoProxyCreator")
 	public VideoActionController videoActionController(){
