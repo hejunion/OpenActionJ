@@ -103,7 +103,7 @@ public abstract class AbstractActionController implements ActionController {
 
 			//Parameter 1...n
 			if (methodParams.length >=2){
-				Object[] valueParamObjs = new Object[methodParams.length-1];
+				Object[] valueParamObjs = new Object[methodParams.length];
 				for (int k=1;k<methodParams.length;k++){
 					Class methodParamClasz = methodParams[k];
 					//Any parameter Object passed in?
@@ -111,15 +111,15 @@ public abstract class AbstractActionController implements ActionController {
 						Object inParamObj = args[k-1];
 						if (inParamObj!=null){
 							if (methodParamClasz.isAssignableFrom(inParamObj.getClass()))
-								valueParamObjs[k-1] = inParamObj;
+								valueParamObjs[k] = inParamObj;
 							else 
 								throw new InvalidActionMethodException(inParamObj.getClass()+" is not valud Parameter type of " + methodParamClasz );		    	
 
 						}							
 						else
-							valueParamObjs[k-1]=null;
+							valueParamObjs[k]=null;
 					}else
-						valueParamObjs[k-1]=null;
+						valueParamObjs[k]=null;
 				}
 				
 				/*
@@ -136,14 +136,17 @@ public abstract class AbstractActionController implements ActionController {
 				//To improve
 				Class<?> returnType = method.getReturnType();
 				if (!ActionResult.class.isAssignableFrom(returnType)) 
-					throw new InvalidActionMethodException(returnType.getClass()+" is not valud return type of " + method.getName() );		    	
+					throw new InvalidActionMethodException(returnType.getClass()+" is not valud return type of " + method.getName() );
+				/*
 				switch (methodParams.length-1) {
 				  case 1: return (ActionResult) method.invoke(actionMethodInvoker.getHostObj(),action,valueParamObjs[0]);
 				  case 2 :return (ActionResult)method.invoke(actionMethodInvoker.getHostObj(),action,valueParamObjs[0],valueParamObjs[1]);
 				  case 3 :return (ActionResult)method.invoke(actionMethodInvoker.getHostObj(),action,valueParamObjs[0],valueParamObjs[1],valueParamObjs[2]);
 				  case 4 :return (ActionResult)method.invoke(actionMethodInvoker.getHostObj(),action,valueParamObjs[0],valueParamObjs[1],valueParamObjs[2],valueParamObjs[3]);
 				  case 5 :return (ActionResult)method.invoke(actionMethodInvoker.getHostObj(),action,valueParamObjs[0],valueParamObjs[1],valueParamObjs[2],valueParamObjs[3],valueParamObjs[4]);
-				}
+				}*/
+				valueParamObjs[0]=action;
+				method.invoke(actionMethodInvoker.getHostObj(),valueParamObjs);
 						    
 			}else
 				return  (ActionResult)method.invoke(actionMethodInvoker.getHostObj(),action);

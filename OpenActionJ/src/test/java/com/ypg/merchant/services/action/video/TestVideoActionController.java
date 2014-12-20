@@ -24,7 +24,7 @@ public class TestVideoActionController {
 		   ActionResult obj =  videoActionCtrl.doAction(videoApproveAction);
 		   System.out.println(obj);
 		   VideoDeleteClientAction videoDeleteAction = new VideoDeleteClientAction();
-		   ActionResult obj1 = videoActionCtrl.doAction(videoDeleteAction,videoActionCtrl);
+		   ActionResult obj1 = videoActionCtrl.doAction(videoDeleteAction,"Hello", "World");
 		   System.out.println(obj1);
 
 
