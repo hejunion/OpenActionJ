@@ -22,7 +22,6 @@ public abstract class AbstractActionController implements ActionController {
 
 	@PostConstruct
 	public void init()  {
-		this.onCreate();
 
 		ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(true);
 		provider.addIncludeFilter(new AssignableTypeFilter(ActionExecutor.class));
@@ -59,17 +58,16 @@ public abstract class AbstractActionController implements ActionController {
 				else System.out.print("Found:");
 				System.out.println(foundClass.getName());
 			}  catch (InstantiationException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			// use class cls found
 		}
+		this.onCreate();
+
 	}
 
 	@PreDestroy
@@ -107,7 +105,7 @@ public abstract class AbstractActionController implements ActionController {
 				for (int k=1;k<methodParams.length;k++){
 					Class methodParamClasz = methodParams[k];
 					//Any parameter Object passed in?
-					if (k<= args.length){
+					if ((args!=null)&&(k<= args.length)){
 						Object inParamObj = args[k-1];
 						if (inParamObj!=null){
 							if (methodParamClasz.isAssignableFrom(inParamObj.getClass()))
@@ -146,7 +144,7 @@ public abstract class AbstractActionController implements ActionController {
 				  case 5 :return (ActionResult)method.invoke(actionMethodInvoker.getHostObj(),action,valueParamObjs[0],valueParamObjs[1],valueParamObjs[2],valueParamObjs[3],valueParamObjs[4]);
 				}*/
 				valueParamObjs[0]=action;
-				method.invoke(actionMethodInvoker.getHostObj(),valueParamObjs);
+				return (ActionResult)method.invoke(actionMethodInvoker.getHostObj(),valueParamObjs);
 						    
 			}else
 				return  (ActionResult)method.invoke(actionMethodInvoker.getHostObj(),action);
@@ -162,7 +160,6 @@ public abstract class AbstractActionController implements ActionController {
 			e.printStackTrace();
 			throw new InvalidActionMethodException("Error",e);
 		}
-		return null;
 
 	}
 }

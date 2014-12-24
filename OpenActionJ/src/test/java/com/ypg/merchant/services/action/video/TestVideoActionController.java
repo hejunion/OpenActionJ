@@ -10,6 +10,7 @@ import com.ypg.merchant.services.action.ActionResult;
 import com.ypg.merchant.services.actionframework.InvalidActionMethodException;
 import com.ypg.merchant.services.controller.video.VideoActionController;
 import com.ypg.merchant.services.controller.video.VideoActionControllerConfiguration;
+import com.ypg.merchant.services.controller.video.VideoRunner;
 
 public class TestVideoActionController {
 
@@ -18,14 +19,15 @@ public class TestVideoActionController {
 		   ApplicationContext ctx = 
 				   new AnnotationConfigApplicationContext(VideoActionControllerConfiguration.class);
 
-		   VideoActionController videoActionCtrl = ctx.getBean(VideoActionController.class);
+		   //VideoActionController videoActionCtrl = ctx.getBean(VideoActionController.class);
+		   VideoRunner runner = ctx.getBean(VideoRunner.class);
 		   
 		   VideoApproveClientAction videoApproveAction = new VideoApproveClientAction();
-		   ActionResult obj =  videoActionCtrl.doAction(videoApproveAction);
-		   System.out.println(obj);
+		   ActionResult obj =  runner.run(videoApproveAction);
+		   System.out.println("Result="+obj);
 		   VideoDeleteClientAction videoDeleteAction = new VideoDeleteClientAction();
-		   ActionResult obj1 = videoActionCtrl.doAction(videoDeleteAction,"Hello", "World");
-		   System.out.println(obj1);
+		   ActionResult obj1 = runner.run(videoDeleteAction);
+		   System.out.println("Result="+obj1);
 
 
 	}
